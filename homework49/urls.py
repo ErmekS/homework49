@@ -16,6 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from webapp.views import IndexView, SketchpadView, CreateSketchpad, UpdateSketchpad, DeleteSketchpad
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', IndexView.as_view(), name="index"),
+    path('sketchpad/<int:pk>', SketchpadView.as_view(), name='SketchpadView'),
+    path('sketchpad/create/', CreateSketchpad.as_view(), name='CreateSketchpad'),
+    path('sketchpad/update/<int:pk>/', UpdateSketchpad.as_view(), name='UpdateSketchpad'),
+    path('sketchpad/delete/<pk>/', DeleteSketchpad.as_view(), name='DeleteSketchpad'),
 ]

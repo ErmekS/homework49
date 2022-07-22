@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "CreateSketchpad" %}">Создание статьи</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "UpdateSketchpad" sketchpad.pk %}">Редактировать</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "DeleteSketchpad" sketchpad.pk %}">Удалить1</a>
+    </li>
+
+    <li class="nav-item">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sketchpadDeleteModal">
+            Удалить
+        </button>
+    </li>
+
+
+{% endblock %}
+
+
+
+
+{% block title %} Sketch view {% endblock %}
+
+{% block content %}
+    <p>
+        Краткое описание: {{ sketchpad.summary }}
+    </p>
+
+    <p>
+        Полное описание: {{ sketchpad.description }}
+    </p>
+    <p>
+        Статус: {{ sketchpad.status }}
+    </p>
+    <p>
+        Тип: {{ sketchpad.type }}
+    </p>
+    <p>
+        Дата создания:
+        {% if sketchpad.created_time == None %}
+            {{ "" }}
+        {% else %}
+            {{ sketchpad.created_time }}
+        {% endif %}
+    </p>
+
+    <p>
+        Дата обновления: {{ sketchpad.updated_time }}
+    </p>
+    <a href="{% url "index" %}">На главную</a>
+
+    <div class="modal fade" id="sketchpadDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sketchpadDeleteModal">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Вы уверены что хотите удалить заметку {{ sketchpad.summary }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form action="{% url "DeleteSketchpad" sketchpad.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Да</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

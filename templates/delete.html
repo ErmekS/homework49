@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Удаление задачи{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+{% csrf_token %}
+    <h2>Вы уверены что хотите удалить задачу {{ sketchpad.summary }}?</h2>
+    <button type="submit">Да</button>
+</form>
+   <button type="submit"><a href="{% url "index" %}">Нет</a></button>
+{% endblock %}

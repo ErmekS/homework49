@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "CreateSketchpad" %}">Создание статьи</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <h1>Список задач</h1>
+    <div class="row">
+        {% for sketchpad in sketchpads %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Краткое описание: {{ sketchpad.summary }}</h4>
+
+                        <p>Статус: {{ sketchpad.status }} </p>
+                        <p>Тип: {{ sketchpad.type }} </p>
+                        <p>Дата создания:
+                            {% if sketchpad.created_time == None %}
+                                {{ "" }}
+                            {% else %}
+                                {{ sketchpad.created_time }}
+                            {% endif %}
+                        </p>
+                        <p>Дата обновления: {{ sketchpad.updated_time }} </p>
+
+                        <p><a href="{% url "SketchpadView" sketchpad.pk %}">Подробнее</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

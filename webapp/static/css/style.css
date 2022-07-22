@@ -1,0 +1,19 @@
+button {
+    width: 200px;
+    margin-bottom: 25px;
+}
+
+ body {
+    background-color: lightblue;
+ }
+
+ h1 {
+     color: mediumvioletred
+ }
+ h2 {color: mediumvioletred
+ }
+ h3 {color: mediumvioletred }
+ h4 {color: mediumvioletred }
+ h5 {color: mediumvioletred }
+
+div {margin-bottom: 5px}

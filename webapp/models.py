@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 STATUS_CHOICES = [('new', 'Новая'), ('in_progress', 'В процессе'), ('done', 'Сделано')]
-TYPE_CHOICES = [('task', 'Задача'), ('bug', 'Ошибка'), ('enhancement', 'улучшение')]
+TYPE_CHOICES = [('task', 'Задача'), ('bug', 'Ошибка'), ('enhancement', 'Улучшение')]
 
 
 class BaseModel(models.Model):
@@ -18,7 +18,7 @@ class Status(models.Model):
     status = models.CharField(max_length=35, choices=STATUS_CHOICES)
 
     def __str__(self):
-        return f'{self.status}'
+        return f'{self.get_status_display()}'
 
     class Meta:
         db_table = "status"
@@ -30,7 +30,7 @@ class Type(models.Model):
     type = models.CharField(max_length=35, choices=TYPE_CHOICES)
 
     def __str__(self):
-        return f'{self.type}'
+        return f'{self.get_type_display()}'
 
     class Meta:
         db_table = "types"
