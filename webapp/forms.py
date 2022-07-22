@@ -13,6 +13,9 @@ class SketchpadForm(forms.ModelForm):
     type = forms.ModelChoiceField(queryset=Type.objects.all(), required=True, label='Тип')
     status = forms.ModelChoiceField(queryset=Status.objects.all(), empty_label=None, required=True, label='Статус')
 
+
+
+
     class Meta:
         model = Sketchpad
         fields = '__all__'

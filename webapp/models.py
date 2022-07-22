@@ -44,7 +44,8 @@ class Sketchpad(BaseModel):
     description = models.TextField(max_length=2000, null=True, blank=True, verbose_name="Полное описание")
     status = models.ForeignKey("webapp.Status", on_delete=models.PROTECT, related_name='statuses',
                                verbose_name='Статус')
-    type = models.ForeignKey("webapp.Type", on_delete=models.PROTECT, related_name="issues", verbose_name='Тип')
+    # type = models.ForeignKey("webapp.Type", on_delete=models.PROTECT, related_name="issues", verbose_name='Тип')
+    type = models.ManyToManyField("webapp.Type", related_name="issues", verbose_name='Тип')
 
     def __str__(self):
         return f"{self.id}. {self.summary}: {self.status} {self.description} {self.created_time}"
