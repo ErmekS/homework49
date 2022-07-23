@@ -32,8 +32,9 @@ class CreateSketchpad(View):
             summary = form.cleaned_data.get("summary")
             description = form.cleaned_data.get("description")
             status = form.cleaned_data.get("status")
-            type = form.cleaned_data.get("type")
-            new_sketchpad = Sketchpad.objects.create(summary=summary, description=description, status=status, type=type)
+            type = form.cleaned_data.pop("type")
+            new_sketchpad = Sketchpad.objects.create(summary=summary, description=description, status=status)
+            new_sketchpad.type.set(type)
             return redirect("SketchpadView", pk=new_sketchpad.pk)
         return render(request, "create.html", {"form": form})
 
@@ -46,7 +47,7 @@ class UpdateSketchpad(View):
             "summary": sketchpad.summary,
             "description": sketchpad.description,
             "status": sketchpad.status,
-            "type": sketchpad.type
+            "type": sketchpad.type.all()
         })
         return render(request, 'update.html', {'form': form})
 
@@ -58,7 +59,8 @@ class UpdateSketchpad(View):
             sketchpad.summary = form.cleaned_data.get("summary")
             sketchpad.description = form.cleaned_data.get("description")
             sketchpad.status = form.cleaned_data.get("status")
-            sketchpad.type = form.cleaned_data.get("type")
+            # sketchpad.type = form.cleaned_data.get("type")
+            sketchpad.type.set(form.cleaned_data.pop("type"))
             sketchpad.save()
             return redirect('index')
         return render(request, 'update.html', {"form": form})

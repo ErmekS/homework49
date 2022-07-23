@@ -7,7 +7,7 @@ from webapp.models import Sketchpad, Status, Type
 
 
 class SketchpadAdmin(admin.ModelAdmin):
-    list_display = ['id', 'summary', 'description', 'status', 'type', 'created_time', 'updated_time']
+    list_display = ['id', 'summary', 'description', 'status', 'created_time', 'updated_time']
     list_display_links = ['description']
     list_filter = ['status', 'type']
     search_fields = ['status']

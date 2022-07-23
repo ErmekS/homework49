@@ -10,7 +10,8 @@ class SketchpadForm(forms.ModelForm):
     summary = forms.CharField(max_length=50, required=True, label='Краткое описание')
     description = forms.CharField(max_length=2000, required=False, label='Полное описание',
                                   widget=widgets.Textarea(attrs={"cols": 40, "rows": 3}))
-    type = forms.ModelChoiceField(queryset=Type.objects.all(), required=True, label='Тип')
+    # type = forms.ModelChoiceField(queryset=Type.objects.all(), required=True, label='Тип')
+    type = forms.ModelMultipleChoiceField(queryset=Type.objects.all(), required=True, label='Тип:')
     status = forms.ModelChoiceField(queryset=Status.objects.all(), empty_label=None, required=True, label='Статус')
 
 

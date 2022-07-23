@@ -26,6 +26,7 @@ class Status(models.Model):
         verbose_name_plural = 'Статусы'
 
 
+
 class Type(models.Model):
     type = models.CharField(max_length=35, choices=TYPE_CHOICES)
 

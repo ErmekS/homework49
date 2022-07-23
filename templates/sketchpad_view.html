@@ -36,8 +36,9 @@
         Статус: {{ sketchpad.status }}
     </p>
     <p>
-        Тип: {{ sketchpad.type }}
-    </p>
+        Тип:
+        {% for type in sketchpad.type.all %}{{ type.type }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+
     <p>
         Дата создания:
         {% if sketchpad.created_time == None %}
