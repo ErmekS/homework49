@@ -29,13 +29,10 @@ class CreateSketchpad(View):
     def post(self, request, *args, **kwargs):
         form = SketchpadForm(data=request.POST)
         if form.is_valid():
-            summary = form.cleaned_data.get("summary")
-            description = form.cleaned_data.get("description")
-            status = form.cleaned_data.get("status")
             type = form.cleaned_data.pop("type")
-            new_sketchpad = Sketchpad.objects.create(summary=summary, description=description, status=status)
+            new_sketchpad = form.save()
             new_sketchpad.type.set(type)
-            return redirect("SketchpadView", pk=new_sketchpad.pk)
+            return redirect("CreateSketchpad", pk=new_sketchpad.pk)
         return render(request, "create.html", {"form": form})
 
 
@@ -54,14 +51,11 @@ class UpdateSketchpad(View):
     def post(self, request, *args, **kwargs):
         pk = kwargs['pk']
         sketchpad = get_object_or_404(Sketchpad, pk=pk)
-        form = SketchpadForm(data=request.POST)
+        form = SketchpadForm(data=request.POST, instance=sketchpad)
         if form.is_valid():
-            sketchpad.summary = form.cleaned_data.get("summary")
-            sketchpad.description = form.cleaned_data.get("description")
-            sketchpad.status = form.cleaned_data.get("status")
-            # sketchpad.type = form.cleaned_data.get("type")
-            sketchpad.type.set(form.cleaned_data.pop("type"))
-            sketchpad.save()
+            type = form.cleaned_data.pop('type')
+            sketchpad = form.save()
+            sketchpad.type.set(type)
             return redirect('index')
         return render(request, 'update.html', {"form": form})
 

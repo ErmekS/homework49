@@ -18,7 +18,7 @@ class Status(models.Model):
     status = models.CharField(max_length=35, choices=STATUS_CHOICES)
 
     def __str__(self):
-        return f'{self.get_status_display()}'
+        return f'{self.status}'
 
     class Meta:
         db_table = "status"
@@ -26,12 +26,11 @@ class Status(models.Model):
         verbose_name_plural = 'Статусы'
 
 
-
 class Type(models.Model):
     type = models.CharField(max_length=35, choices=TYPE_CHOICES)
 
     def __str__(self):
-        return f'{self.get_type_display()}'
+        return f'{self.type}'
 
     class Meta:
         db_table = "types"
@@ -45,7 +44,6 @@ class Sketchpad(BaseModel):
     description = models.TextField(max_length=2000, null=True, blank=True, verbose_name="Полное описание")
     status = models.ForeignKey("webapp.Status", on_delete=models.PROTECT, related_name='statuses',
                                verbose_name='Статус')
-    # type = models.ForeignKey("webapp.Type", on_delete=models.PROTECT, related_name="issues", verbose_name='Тип')
     type = models.ManyToManyField("webapp.Type", related_name="issues", verbose_name='Тип')
 
     def __str__(self):
