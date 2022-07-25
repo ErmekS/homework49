@@ -1,0 +1,33 @@
+from webapp.models import Sketchpad, Status
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Q
+
+
+Задача1:
+
+a=Sketchpad.objects.filter(updated_time__gte=(timezone.now()-timedelta(days=30)))
+b=Sketchpad.objects.filter(status__status='done')
+a & b
+
+2-й способ:
+Sketchpad.objects.filter(updated_time__gte=(timezone.now()-timedelta(days=30)), status__status='done')
+
+Задача2:
+
+s1=Q(status__status='done')
+s2=Q(status__status='new')
+s3= Sketchpad.objects.filter(s1 | s2)
+q1=Q(type__type='bug')
+q2=Q(type__type='task')
+q3 = Sketchpad.objects.filter(q1 | q2)
+s3 & q3
+
+Задача3:
+
+b1=Q(summary__icontains='bug')
+b2=Q(type__type='bug')
+b3=Sketchpad.objects.filter(b1 | b2)
+s=Q(status__status='done')
+s3=Sketchpad.objects.filter(~s)
+b3 & s3
