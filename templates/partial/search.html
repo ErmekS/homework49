@@ -1,0 +1,8 @@
+<form class="text-center" action="" method="GET">
+    <label for="{{ form.search.id_for_label }}">{{ form.search.label }}:</label>
+    {{ form.search }}
+    <input type="submit" value="Найти">
+    {% for error in form.search.errors %}
+        <p class="form-error">{{ error }}</p>
+    {% endfor %}
+</form>

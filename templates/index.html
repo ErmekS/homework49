@@ -8,30 +8,24 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Список задач</h1>
+    <br>
+    {% include "partial/search.html" %}
+    <h1>Задачи:</h1>
     <div class="row">
         {% for sketchpad in sketchpads %}
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
+                <div class="card border-primary bg-light mb-3">
                     <div class="card-body">
-                        <h4>Краткое описание: {{ sketchpad.summary }}</h4>
-
-                        <p>Статус: {{ sketchpad.status }} </p>
-                        <p>Тип: {% for type in sketchpad.type.all %}{{ type.type }}{% if not forloop.last %}, {% endif %}{% endfor %} </p>
-                        <p>Дата создания:
-                            {% if sketchpad.created_time == None %}
-                                {{ "" }}
-                            {% else %}
-                                {{ sketchpad.created_time }}
-                            {% endif %}
-                        </p>
-                        <p>Дата обновления: {{ sketchpad.updated_time }} </p>
-
-                        <p><a href="{% url "SketchpadView" sketchpad.pk %}">Подробнее</a></p>
+                        <h5 class="card-title">{{ sketchpad.summary }}</h5>
+                        <a href="{% url "SketchpadView" sketchpad.pk %}" class="card-link">Подробнее</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
+        <div class="d-flex justify-content-center">
+            {% if is_paginated %}
+                {% include "partial/pagination.html" %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
-
