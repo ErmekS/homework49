@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+from django.urls import reverse
 
 STATUS_CHOICES = [('new', 'Новая'), ('in_progress', 'В процессе'), ('done', 'Сделано')]
 TYPE_CHOICES = [('task', 'Задача'), ('bug', 'Ошибка'), ('enhancement', 'Улучшение')]
@@ -45,11 +46,32 @@ class Sketchpad(BaseModel):
     status = models.ForeignKey("webapp.Status", on_delete=models.PROTECT, related_name='statuses',
                                verbose_name='Статус')
     type = models.ManyToManyField("webapp.Type", related_name="issues", verbose_name='Тип')
+    project = models.ForeignKey("webapp.Project", on_delete=models.CASCADE, related_name="projects",
+                                verbose_name='Проект')
+
 
     def __str__(self):
-        return f"{self.id}. {self.summary}: {self.status} {self.description} {self.created_time}"
+        return f"{self.id}. {self.summary}"
 
     class Meta:
         db_table = "sketchpad"
         verbose_name = "задача"
         verbose_name_plural = "Список задач"
+
+class Project(models.Model):
+    start_date = models.DateField(verbose_name="Дата начала")
+    expiration_date = models.DateField(null=True, blank=True,
+                                       verbose_name="Дата окончания")
+    project_name = models.CharField(max_length=35, verbose_name="Название проекта")
+    project_description = models.TextField(max_length=3000, verbose_name="Описание проекта")
+
+    def __str__(self):
+        return f"{self.id}. {self.project_name}"
+
+    def get_absolute_url(self):
+        return reverse("ProjectView", kwargs={"pk": self.pk})
+
+    class Meta:
+        db_table = "projects"
+        verbose_name = "Проект"
+        verbose_name_plural = "Проекты"

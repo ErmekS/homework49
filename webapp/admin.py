@@ -1,9 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-
-
-from webapp.models import Sketchpad, Status, Type
+from webapp.models import Sketchpad, Status, Type, Project
 
 
 class SketchpadAdmin(admin.ModelAdmin):
@@ -18,3 +16,5 @@ class SketchpadAdmin(admin.ModelAdmin):
 admin.site.register(Sketchpad, SketchpadAdmin)
 admin.site.register(Type)
 admin.site.register(Status)
+admin.site.register(Project)
+

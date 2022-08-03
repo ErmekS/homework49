@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block nav %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "CreateSketchpad" %}">Создание статьи</a>
-    </li>
-{% endblock %}
-
 {% block content %}
     <br>
     {% include "partial/search.html" %}

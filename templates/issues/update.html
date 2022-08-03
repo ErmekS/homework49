@@ -2,10 +2,10 @@
 {% block title %}Update Sketchpad{% endblock %}
 
 {% block content %}
-    <h1>Update note</h1>
-
+    <h1>Изменение задачи:</h1>
     <form action="" method="post">
         {% include "partial/form.html" with button_text="Изменить" %}
     </form>
-    <br/><a href="{% url "index" %}">На главную</a>
+    <br>
+    <a href="{% url "index" %}">На главную</a>
 {% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "CreateProject" %}">Создать проект</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "UpdateProject" project.pk %}">Редактировать проект</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "CreateSketchpad" project.pk %}">Создать задачу</a>
+    </li>
+    <li class="nav-item">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">
+            Удалить
+        </button>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Подробная информация <br>
+        о проекте:</h1>
+    <p>
+        <b>Название:</b>
+        {{ project.project_name }}
+    </p>
+    <p>
+        <b>Описание:</b>
+        {{ project.project_description }}
+    </p>
+    <p>
+        <b>Дата старта:</b>
+        {{ project.start_date }}
+    </p>
+    <p>
+        <b>Дата окончания:</b>
+        {{ project.expiration_date }}
+    </p>
+    <p><b>Задачи:</b>
+        {% for issue in project.projects.all %}
+            <p>{{ issue.summary }}</p>
+        {% empty %}
+            <p>Задач нет</p>
+        {% endfor %}
+
+    <a href="{% url "index" %}">На главную</a>
+    <div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="projectModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="projectDeleteModal">Подтверждение</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Вы уверены, что хотите удалить проект "{{ project.project_name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Нет</button>
+                    <form action="{% url "DeleteProject" project.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Да</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

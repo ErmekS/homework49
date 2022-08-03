@@ -14,15 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-from webapp.views import IndexView, SketchpadView, CreateSketchpad, UpdateSketchpad, DeleteSketchpad
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView.as_view(), name="index"),
-    path('sketchpad/<int:pk>', SketchpadView.as_view(), name='SketchpadView'),
-    path('sketchpad/create/', CreateSketchpad.as_view(), name='CreateSketchpad'),
-    path('sketchpad/update/<int:pk>/', UpdateSketchpad.as_view(), name='UpdateSketchpad'),
-    path('sketchpad/delete/<pk>/', DeleteSketchpad.as_view(), name='DeleteSketchpad'),
+    path('', include("webapp.urls"))
 ]
