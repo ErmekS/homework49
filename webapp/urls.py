@@ -1,7 +1,9 @@
 from django.urls import path
-# from django.views.generic import RedirectView
+
 
 from webapp.views import IndexView, SketchpadView, CreateSketchpad, UpdateSketchpad, DeleteSketchpad, CreateProject, ProjectView, IndexSketchpadView, UpdateProject, DeleteProject
+
+app_name = "webapp"
 
 urlpatterns = [
     path('', IndexView.as_view(), name="index"),

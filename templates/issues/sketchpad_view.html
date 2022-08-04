@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 {% block nav %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "UpdateSketchpad" sketchpad.pk %}">Редактировать</a>
-    </li>
-    <li class="nav-item">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sketchpadDeleteModal">
-            Удалить
-        </button>
-    </li>
+    {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "webapp:UpdateSketchpad" sketchpad.pk %}">Редактировать</a>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sketchpadDeleteModal">
+                Удалить
+            </button>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -32,7 +34,7 @@
     <p>
     <p>{{ sketchpad.project.project_name }}</p>
     </p>
-    <a href="{% url "index" %}">На главную</a>
+    <a href="{% url "webapp:index" %}">На главную</a>
     <div class="modal fade" id="sketchpadDeleteModal" tabindex="-1" aria-labelledby="sketchpadModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -46,7 +48,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">Нет</button>
-                    <form action="{% url "DeleteSketchpad" sketchpad.pk %}" method="post">
+                    <form action="{% url "webapp:DeleteSketchpad" sketchpad.pk %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Да</button>
                     </form>

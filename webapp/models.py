@@ -69,7 +69,7 @@ class Project(models.Model):
         return f"{self.id}. {self.project_name}"
 
     def get_absolute_url(self):
-        return reverse("ProjectView", kwargs={"pk": self.pk})
+        return reverse("webapp:ProjectView", kwargs={"pk": self.pk})
 
     class Meta:
         db_table = "projects"

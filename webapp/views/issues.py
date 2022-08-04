@@ -66,7 +66,7 @@ class CreateSketchpad(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("ProjectView", kwargs={"pk": self.object.project.pk})
+        return reverse("webapp:ProjectView", kwargs={"pk": self.object.project.pk})
 
 
 class UpdateSketchpad(UpdateView):
@@ -76,11 +76,11 @@ class UpdateSketchpad(UpdateView):
     template_name = 'issues/update.html'
 
     def get_success_url(self):
-        return reverse('SketchpadView', kwargs={'pk': self.object.pk})
+        return reverse('webapp:SketchpadView', kwargs={'pk': self.object.pk})
 
 
 class DeleteSketchpad(DeleteView):
     model = Sketchpad
     template_name = 'issues/delete.html'
     context_object_name = 'sketchpad'
-    success_url = reverse_lazy('IndexSketchpadView')
+    success_url = reverse_lazy('webapp:IndexSketchpadView')

@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 {% block nav %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "CreateProject" %}">Создать проект</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "IndexSketchpadView" %}">Посмотреть все задачи</a>
-    </li>
+    {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "webapp:CreateProject" %}">Создать проект</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "webapp:IndexSketchpadView" %}">Посмотреть все задачи</a>
+        </li>
+    {% endif %}
 {% endblock %}
 {% block content %}
     <br>
@@ -17,7 +19,7 @@
                 <div class="card border-primary bg-light mb-3">
                     <div class="card-body">
                         <h5 class="card-title">{{ project.project_name }}</h5>
-                        <a href="{% url "ProjectView" project.pk %}" class="card-link">Подробнее</a>
+                        <a href="{% url "webapp:ProjectView" project.pk %}" class="card-link">Подробнее</a>
                     </div>
                 </div>
             </div>

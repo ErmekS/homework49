@@ -7,5 +7,5 @@
         <h2>Вы уверены, что хотите удалить задачу {{ sketchpad.summary }}?</h2>
         <button type="submit">Да</button>
     </form>
-    <a href="{% url "sketchpad_view" sketchpad.pk %}">Нет</a>
+    <a href="{% url "webapp:sketchpad_view" sketchpad.pk %}">Нет</a>
 {% endblock %}
