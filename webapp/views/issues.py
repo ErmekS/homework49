@@ -1,10 +1,10 @@
 from django.db.models import Q
-from django.shortcuts import redirect, get_object_or_404, render
-from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse, reverse_lazy
 # Create your views here.
 from django.utils.http import urlencode
-from django.views import View
-from django.views.generic import FormView, ListView, DetailView, CreateView
+
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import SketchpadForm, SearchForm
 from webapp.models import Sketchpad, Project
@@ -69,38 +69,18 @@ class CreateSketchpad(CreateView):
         return reverse("ProjectView", kwargs={"pk": self.object.project.pk})
 
 
-class UpdateSketchpad(FormView):
+class UpdateSketchpad(UpdateView):
+    model = Sketchpad
     form_class = SketchpadForm
-    template_name = "issues/update.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.sketchpad = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    context_object_name = 'sketchpad'
+    template_name = 'issues/update.html'
 
     def get_success_url(self):
-        return reverse("SketchpadView", kwargs={"pk": self.sketchpad.pk})
-
-    def get_form_kwargs(self):
-        form_kwargs = super().get_form_kwargs()
-        form_kwargs['instance'] = self.sketchpad
-        return form_kwargs
-
-    def form_valid(self, form):
-        self.sketchpad = form.save()
-        return super().form_valid(form)
-
-    def get_object(self):
-        return get_object_or_404(Sketchpad, pk=self.kwargs.get("pk"))
+        return reverse('SketchpadView', kwargs={'pk': self.object.pk})
 
 
-class DeleteSketchpad(View):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs['pk']
-        sketchpad = get_object_or_404(Sketchpad, pk=pk)
-        return render(request, 'issues/delete.html', {'sketchpad': sketchpad})
-
-    def post(self, request, *args, **kwargs):
-        pk = kwargs['pk']
-        sketchpad = get_object_or_404(Sketchpad, pk=pk)
-        sketchpad.delete()
-        return redirect('index')
+class DeleteSketchpad(DeleteView):
+    model = Sketchpad
+    template_name = 'issues/delete.html'
+    context_object_name = 'sketchpad'
+    success_url = reverse_lazy('IndexSketchpadView')

@@ -1,8 +1,8 @@
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import redirect
 # Create your views here.
-from django.urls import reverse
-from django.views import View
-from django.views.generic import CreateView, DetailView, FormView
+from django.urls import reverse_lazy
+
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic import ListView
 
 from webapp.forms import ProjectForm
@@ -37,38 +37,14 @@ class CreateProject(CreateView):
         return redirect("ProjectView", pk=project.pk)
 
 
-class UpdateProject(FormView):
+class UpdateProject(UpdateView):
+    model = Project
+    template_name = 'projects/update.html'
     form_class = ProjectForm
-    template_name = "projects/update.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.project = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_success_url(self):
-        return reverse("ProjectView", kwargs={"pk": self.project.pk})
-
-    def get_form_kwargs(self):
-        form_kwargs = super().get_form_kwargs()
-        form_kwargs['instance'] = self.project
-        return form_kwargs
-
-    def form_valid(self, form):
-        self.project = form.save()
-        return super().form_valid(form)
-
-    def get_object(self):
-        return get_object_or_404(Project, pk=self.kwargs.get("pk"))
+    context_object_name = 'project'
 
 
-class DeleteProject(View):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs['pk']
-        project = get_object_or_404(Project, pk=pk)
-        return render(request, 'projects/delete.html', {'project': project})
-
-    def post(self, request, *args, **kwargs):
-        pk = kwargs['pk']
-        project = get_object_or_404(Project, pk=pk)
-        project.delete()
-        return redirect('index')
+class DeleteProject(DeleteView):
+    model = Project
+    template_name = "projects/delete.html"
+    success_url = reverse_lazy('index')
