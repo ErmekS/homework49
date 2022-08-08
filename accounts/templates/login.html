@@ -5,7 +5,7 @@
 
 {% block content %}
     <h1 class="text-center">Вход</h1>
-    <form action="" method="post" class="text-center">
+    <form method="post" class="text-center">
         {% csrf_token %}
         {% if has_error %}
             <p class="text-danger">Неверное имя пользователя или пароль.</p>
