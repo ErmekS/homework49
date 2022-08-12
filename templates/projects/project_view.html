@@ -1,18 +1,35 @@
 {% extends "base.html" %}
 {% block nav %}
     {% if request.user.is_authenticated %}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url "webapp:CreateProject" %}">Создать проект</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url "webapp:UpdateProject" project.pk %}">Редактировать проект</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url "webapp:DeleteProject" project.pk %}">Удалить проект</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url "webapp:CreateSketchpad" project.pk %}">Создать задачу</a>
-        </li>
+
+        {% if perms.webapp.create_project %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "webapp:CreateProject" %}">Создать проект</a>
+            </li>
+        {% endif %}
+        {% if perms.webapp.update_project %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "webapp:UpdateProject" project.pk %}">Редактировать проект</a>
+            </li>
+        {% endif %}
+
+        {% if perms.webapp.remove_project %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "webapp:DeleteProject" project.pk %}">Удалить проект</a>
+            </li>
+        {% endif %}
+
+        {% if perms.webapp.create_issue and user in project.users.all %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "webapp:CreateSketchpad" project.pk %}">Создать задачу</a>
+            </li>
+        {% endif %}
+        {% if perms.webapp.add_user and user in project.users.all %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "webapp:project_add_users" project.pk %}">Добавить / Удалить
+                    пользователя</a>
+            </li>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
@@ -24,6 +41,7 @@
         <b>Название:</b>
         {{ project.project_name }}
     </p>
+
     <p>
         <b>Описание:</b>
         {{ project.project_description }}
@@ -42,6 +60,14 @@
         {% empty %}
             <p>Задач нет</p>
         {% endfor %}
+    <b>Пользователи:</b>
+    {% for user in project.users.all %}
+        <div class="col my-2">
+            <p class="card-title">{{ user.username }} </p>
+        </div>
+    {% empty %}
+        <p>Пользователи отсутствуют</p>
+    {% endfor %}
 
     <a href="{% url "webapp:index" %}">На главную</a>
     <div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="projectModalLabel"

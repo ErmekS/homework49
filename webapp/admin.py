@@ -17,4 +17,3 @@ admin.site.register(Sketchpad, SketchpadAdmin)
 admin.site.register(Type)
 admin.site.register(Status)
 admin.site.register(Project)
-

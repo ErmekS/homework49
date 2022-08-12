@@ -38,3 +38,9 @@ class ProjectForm(forms.ModelForm):
                 raise ValidationError("Название и описание проекта не могут совпадать")
             return super().clean()
 
+
+class AddUsersForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ["users"]
+        widgets = {"users": forms.CheckboxSelectMultiple()}

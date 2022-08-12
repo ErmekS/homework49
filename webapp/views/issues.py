@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -52,7 +53,7 @@ class SketchpadView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['project'] = self.object.project.project_name
-        print(context)
+        # print(context)
         return context
 
 
@@ -68,8 +69,12 @@ class CreateSketchpad(CreateView):
     def get_success_url(self):
         return reverse("webapp:ProjectView", kwargs={"pk": self.object.project.pk})
 
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.create_issue") or \
+               self.request.user == self.get_object().users
 
-class UpdateSketchpad(UpdateView):
+
+class UpdateSketchpad(PermissionRequiredMixin, UpdateView):
     model = Sketchpad
     form_class = SketchpadForm
     context_object_name = 'sketchpad'
@@ -78,9 +83,17 @@ class UpdateSketchpad(UpdateView):
     def get_success_url(self):
         return reverse('webapp:SketchpadView', kwargs={'pk': self.object.pk})
 
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.update_issue") or \
+               self.request.user == self.get_object().users
+
 
 class DeleteSketchpad(DeleteView):
     model = Sketchpad
     template_name = 'issues/delete.html'
     context_object_name = 'sketchpad'
     success_url = reverse_lazy('webapp:IndexSketchpadView')
+
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.delete_issue") or \
+               self.request.user == self.get_object().users

@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 # Create your models here.
@@ -64,9 +65,12 @@ class Project(models.Model):
                                        verbose_name="Дата окончания")
     project_name = models.CharField(max_length=35, verbose_name="Название проекта")
     project_description = models.TextField(max_length=3000, verbose_name="Описание проекта")
+    users = models.ManyToManyField(get_user_model(), null=True, blank=True, related_name="projects",
+                                   verbose_name="Пользователи")
+
 
     def __str__(self):
-        return f"{self.id}. {self.project_name}"
+        return f"{self.id}. {self.project_name}."
 
     def get_absolute_url(self):
         return reverse("webapp:ProjectView", kwargs={"pk": self.pk})
@@ -75,3 +79,13 @@ class Project(models.Model):
         db_table = "projects"
         verbose_name = "Проект"
         verbose_name_plural = "Проекты"
+        permissions = [
+            ('create_project', 'Создать проект'),
+            ('remove_project', 'Удалить проект'),
+            ('update_project', 'Редактировать проект'),
+            ('create_issue', 'Создать задачу'),
+            ('delete_issue', 'Удалить задачу'),
+            ('update_issue', 'Редактировать задачу'),
+            ('add_user', 'Добавить пользователя'),
+            ('delete_user', 'Удалить пользователя')
+        ]

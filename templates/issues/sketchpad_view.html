@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 {% block nav %}
     {% if request.user.is_authenticated %}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url "webapp:UpdateSketchpad" sketchpad.pk %}">Редактировать</a>
-        </li>
-        <li class="nav-item">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sketchpadDeleteModal">
-                Удалить
-            </button>
-        </li>
+
+        {% if perms.webapp.update_issue and user in sketchpad.project.users.all %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "webapp:UpdateSketchpad" sketchpad.pk %}">Редактировать</a>
+            </li>
+        {% endif %}
+
+        {% if perms.webapp.delete_issue and user in sketchpad.project.users.all %}
+            <li class="nav-item">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#sketchpadDeleteModal">Удалить
+                </button>
+            </li>
+        {% endif %}
+
     {% endif %}
 {% endblock %}
 
