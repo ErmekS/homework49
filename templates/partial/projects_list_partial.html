@@ -1,0 +1,18 @@
+<h1>Проекты:</h1>
+    <div class="row">
+        {% for project in projects %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card border-primary bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.project_name }}</h5>
+                        <a href="{% url "webapp:ProjectView" project.pk %}" class="card-link">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="d-flex justify-content-center">
+            {% if is_paginated %}
+                {% include "partial/pagination.html" %}
+            {% endif %}
+        </div>
+    </div>

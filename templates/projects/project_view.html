@@ -61,12 +61,13 @@
             <p>Задач нет</p>
         {% endfor %}
     <b>Пользователи:</b>
+    <br>
     {% for user in project.users.all %}
         <div class="col my-2">
-            <p class="card-title">{{ user.username }} </p>
+        <a class="card-title" href="{% url "accounts:profile" user.pk %}">{{ user.username }}</a>
         </div>
     {% empty %}
-        <p>Пользователи отсутствуют</p>
+        <p>Пользователей нет</p>
     {% endfor %}
 
     <a href="{% url "webapp:index" %}">На главную</a>
