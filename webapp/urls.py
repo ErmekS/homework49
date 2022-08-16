@@ -2,7 +2,7 @@ from django.urls import path
 
 
 from webapp.views import IndexView, SketchpadView, CreateSketchpad, UpdateSketchpad, DeleteSketchpad, CreateProject, \
-    ProjectView, IndexSketchpadView, UpdateProject, DeleteProject, AddUsers
+    ProjectView, IndexSketchpadView, UpdateProject, DeleteProject, AddUsers, ViewUsers
 
 app_name = "webapp"
 
@@ -18,6 +18,8 @@ urlpatterns = [
     path('project/update/<int:pk>/', UpdateProject.as_view(), name='UpdateProject'),
     path('project/delete/<pk>/', DeleteProject.as_view(), name='DeleteProject'),
     path('project/<int:pk>/add/users/', AddUsers.as_view(), name="project_add_users"),
+    path('project/users/', ViewUsers.as_view(), name="ViewUsers"),
+
 ]
 
 

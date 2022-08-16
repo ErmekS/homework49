@@ -1,0 +1,9 @@
+<h1>Все пользователи:</h1>
+
+{% for user in users.all %}
+
+    <div class="col my-2">
+        <a class="card-title" href="{% url "accounts:profile" user.pk %}">{{ user.username }}</a>
+    </div>
+
+{% endfor %}
