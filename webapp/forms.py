@@ -50,4 +50,4 @@ class ViewUsersForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ["users"]
-        # widgets = {"users": forms.CheckboxSelectMultiple()}
+

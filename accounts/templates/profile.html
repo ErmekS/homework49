@@ -16,8 +16,16 @@
         {% endif %}
         <div class="card-body ms-5">
             <h5 class="card-title">Имя пользователя: {{ user.username }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Профиль в Git: <a class="nav-link" href="{{ user.profile.gitprofile }}">Перейти</a></h6>
-            <h6 class="card-subtitle mb-2 text-muted">О себе: {{ user.profile.about_me }}</h6>
+            {% if user.profile.gitprofile %}
+                <h6 class="card-subtitle mb-2 text-muted">Профиль в Git: <a class="nav-link" href="{{ user.profile.gitprofile }}">Перейти</a></h6>
+            {% else %}
+                <h6 class="card-subtitle mb-2 text-muted">Ссылки нет на GIT</h6>
+            {% endif %}
+            {% if user.profile.about_me %}
+                <h6 class="card-subtitle mb-2 text-muted">О себе: {{ user.profile.about_me }}</h6>
+            {% else %}
+                <h6 class="card-subtitle mb-2 text-muted">Информации о себе нет</h6>
+            {% endif %}
             <h6 class="card-subtitle mb-2 text-muted">Имя: {{ user.first_name }}</h6>
             <h6 class="card-subtitle mb-2 text-muted">Фамилия: {{ user.last_name }}</h6>
             <h6 class="card-subtitle mb-2 text-muted">Почта: {{ user.email }}</h6>

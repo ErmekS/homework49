@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic import ListView
 
-from accounts.models import Profile
 from webapp.forms import ProjectForm, AddUsersForm, ViewUsersForm
 from webapp.models import Project
 
@@ -20,22 +19,16 @@ class IndexView(ListView):
     ordering = "-start_date"
     paginate_by = 3
 
+
 class ViewUsers(ListView):
     model = get_user_model()
-    # form_class = ViewUsersForm
     template_name = 'projects/view_users_view.html'
     context_object_name = "users"
 
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.view_users") or \
+               self.request.user == self.get_object().users
 
-
-# class ViewUsers(ListView):
-#     model = Profile
-#     form_class = ViewUsersForm
-#     template_name = 'projects/view_users_view.html'
-
-    # def has_permission(self):
-    #     return self.request.user.has_perm("webapp.view_users") or \
-    #            self.request.user == self.get_object().users
 
 # class ProjectView(DetailView):
 #     template_name = "projects/project_view.html"
@@ -103,5 +96,3 @@ class DeleteProject(DeleteView):
     def has_permission(self):
         return self.request.user.has_perm("webapp.remove_project") or \
                self.request.user == self.get_object().users
-
-

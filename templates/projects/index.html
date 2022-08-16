@@ -11,9 +11,11 @@
             <a class="nav-link" href="{% url "webapp:IndexSketchpadView" %}">Посмотреть все задачи</a>
         </li>
     {% endif %}
-    <li class="nav-item">
-            <a class="nav-link" href="{% url "webapp:ViewUsers" %}">Посмотреть userov</a>
+    {% if perms.webapp.view_users %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "webapp:ViewUsers" %}">Просмотр всех пользователей</a>
         </li>
+    {% endif %}
 {% endblock %}
 {% block content %}
     <br>
