@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="text-center">
+        <h1>Редактирование профиля</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% include "partial/form.html" with fields_only=True %}
+            {% include "partial/form.html" with form=profile_form button_text="Редактировать"%}
+        </form>
+    </div>
+{% endblock %}
